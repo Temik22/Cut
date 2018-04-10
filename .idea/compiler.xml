@@ -9,8 +9,5 @@
         <module name="cut" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="cut" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
