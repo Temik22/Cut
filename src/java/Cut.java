@@ -147,6 +147,7 @@ public class Cut {
                 for (int i = 1; i < lineBuilder.size(); i++) answerLine.append(" " + lineBuilder.get(i));
                 answerFile.add(answerLine.toString());
                 answerLine.delete(0, answerLine.length());
+                lineBuilder.clear();
             }
         }
         return answerFile;
