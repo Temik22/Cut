@@ -11,7 +11,6 @@ public class Cut {
     private static boolean words = false, chars = false;
 
     public static void main(String[] args) throws Exception {
-        // cut [-w|-c] [-o ofile] [file] range
 
         if (args[0].equals("cut") && (args[1].equals("-w") || args[1].equals("-c")) && args[args.length - 1].contains("-")) {
 
@@ -150,10 +149,6 @@ public class Cut {
                 answerLine.delete(0, answerLine.length());
             }
         }
-
         return answerFile;
     }
-
-}
-
 }
