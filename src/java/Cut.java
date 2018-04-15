@@ -1,8 +1,11 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Cut {
 
@@ -12,23 +15,27 @@ public class Cut {
 
     public static void main(String[] args) throws Exception {
 
-        StringBuilder control = new StringBuilder();
-        for (String temp: args) control.append(temp + " ");
+        Scanner in = new Scanner(System.in);
+        String command = in.nextLine();
 
-        if (control.toString().matches("cut (-c|-w) (-o \\w+)? (\\w+)? (\\d+-\\d*|\\d*-\\d+)")){
+        if (command.matches("cut (-c|-w) (-o \\w+ )?(\\w+)? (\\d*-\\d*)")) {
+
+            args = command.split(" ");
 
             for (int i = 1; i < args.length; i++) {
                 switch (args[i]) {
                     case ("-c"):
                         chars = true;
+                        break;
                     case ("-w"):
                         words = true;
+                        break;
                     case ("-o"): {
                         output = args[i + 1];
-                        String temp = args[i + 2];
-                        if (!temp.equals(args[args.length - 1])) input = temp;
+                        break;
                     }
                     default:
+                        input = args[args.length - 2];
                 }
             }
 
@@ -36,14 +43,14 @@ public class Cut {
 
             if (range[0].equals("")) {
                 n = 0;
-                k = Integer.parseInt(range[1]);
+                k = Integer.parseInt(range[1]) - 1;
             } else {
-                if (range[1].equals("")) {
+                if (range.length == 1) {
                     k = -1;
-                    n = Integer.parseInt(range[0]);
+                    n = Integer.parseInt(range[0]) - 1;
                 } else {
-                    n = Integer.parseInt(range[0]);
-                    k = Integer.parseInt(range[1]);
+                    n = Integer.parseInt(range[0]) - 1;
+                    k = Integer.parseInt(range[1]) - 1;
                 }
             }
 
@@ -52,18 +59,19 @@ public class Cut {
         }
 
         String text = new String(Files.readAllBytes(Paths.get("src/files/" + input + ".txt")));
-
         List<String> cutter = Cut.toCut(text);
-        if (output == ""){
-            for (String line: cutter){
+
+
+        if (output == "") {
+            for (String line : cutter) {
                 System.out.println(line);
             }
         } else {
             FileWriter writer = new FileWriter("src/files/" + output + ".txt");
-            String out = cutter.toString().replace(",","\n");
+            String out = cutter.toString().replaceAll("\\[|\\]", "").replace(", ","\n");
             writer.write(out);
+            writer.close();
         }
-
     }
 
     public static List<String> toCut(String text) {
@@ -71,7 +79,7 @@ public class Cut {
         List<String> answerFile = new ArrayList<>();
         StringBuilder answerLine = new StringBuilder();
 
-        if (chars == true && words != true) {
+        if (chars && !words) {
 
             for (String lines : text.split("\n")) {
 
@@ -88,7 +96,7 @@ public class Cut {
                             length--;
                         }
                     } else {
-                        length = k - n;
+                        length = k - n + 1;
                         int begin = n;
                         while (length != 0) {
                             answerLine.append(lines.charAt(begin));
@@ -100,7 +108,7 @@ public class Cut {
                     if (k >= length) {
                         answerLine.append(lines);
                     } else {
-                        length = k;
+                        length = k + 1;
                         int begin = n;
                         while (length != 0) {
                             answerLine.append(lines.charAt(begin));
@@ -133,7 +141,7 @@ public class Cut {
                             length--;
                         }
                     } else {
-                        length = k - n;
+                        length = k - n + 1;
                         int begin = n;
                         while (length != 0) {
                             lineBuilder.add(word[begin]);
@@ -145,7 +153,7 @@ public class Cut {
                     if (k >= length) {
                         for (int i = 0; i < length; i++) lineBuilder.add(word[i]);
                     } else {
-                        length = k;
+                        length = k + 1;
                         int begin = n;
                         while (length != 0) {
                             lineBuilder.add(word[begin]);
