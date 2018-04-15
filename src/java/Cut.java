@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -50,14 +51,17 @@ public class Cut {
             throw new IllegalArgumentException("Wrong command line");
         }
 
-        String text = new String(Files.readAllBytes(Paths.get("src/files" + input + ".txt")));
+        String text = new String(Files.readAllBytes(Paths.get("src/files/" + input + ".txt")));
+
         List<String> cutter = Cut.toCut(text);
         if (output == ""){
             for (String line: cutter){
                 System.out.println(line);
             }
         } else {
-            //here must be another type of output, which makes new file for that
+            FileWriter writer = new FileWriter("src/files/" + output + ".txt");
+            String out = cutter.toString().replace(",","\n");
+            writer.write(out);
         }
 
     }
@@ -160,4 +164,5 @@ public class Cut {
         }
         return answerFile;
     }
+
 }
