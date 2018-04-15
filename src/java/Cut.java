@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,7 +11,10 @@ public class Cut {
 
     public static void main(String[] args) throws Exception {
 
-        if (args[0].equals("cut") && (args[1].equals("-w") || args[1].equals("-c")) && args[args.length - 1].contains("-")) {
+        StringBuilder control = new StringBuilder();
+        for (String temp: args) control.append(temp + " ");
+
+        if (control.toString().matches("cut (-c|-w) (-o \\w+)? (\\w+)? (\\d+-\\d*|\\d*-\\d+)")){
 
             for (int i = 1; i < args.length; i++) {
                 switch (args[i]) {
@@ -45,13 +47,19 @@ public class Cut {
             }
 
         } else {
-            throw new IOException("Wrong command line");
+            throw new IllegalArgumentException("Wrong command line");
         }
 
-        if (words == true && chars == true) throw new IOException("Command line error");
-
         String text = new String(Files.readAllBytes(Paths.get("src/files" + input + ".txt")));
-        Cut.toCut(text);
+        List<String> cutter = Cut.toCut(text);
+        if (output == ""){
+            for (String line: cutter){
+                System.out.println(line);
+            }
+        } else {
+            //here must be another type of output, which makes new file for that
+        }
+
     }
 
     public static List<String> toCut(String text) {
@@ -59,7 +67,7 @@ public class Cut {
         List<String> answerFile = new ArrayList<>();
         StringBuilder answerLine = new StringBuilder();
 
-        if (chars == true) {
+        if (chars == true && words != true) {
 
             for (String lines : text.split("\n")) {
 
