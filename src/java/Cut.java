@@ -6,37 +6,37 @@ import java.util.List;
 
 public class Cut {
 
+    private List<String> answerFile = new ArrayList<>();
+    private static CutParser command = new CutParser();
 
     public static void main(String[] args) throws Exception {
 
-        CutParser command = new CutParser(args);
+        command.toParse(args);
+
+        String text = new String(Files.readAllBytes(Paths.get("src/files/" + command.getInput() + ".txt")));
+        Cut cutter = new Cut();
+        cutter.toCut(text);
 
 
-
-        String text = new String(Files.readAllBytes(Paths.get("src/files/" + CutParser.getInput() + ".txt")));
-        List<String> cutter = Cut.toCut(text);
-
-
-        if (CutParser.getOutput() == "") {
-            for (String line : cutter) {
+        if (command.getOutput().equals("")) {
+            for (String line : cutter.answerFile) {
                 System.out.println(line);
             }
         } else {
-            FileWriter writer = new FileWriter("src/files/" + CutParser.getOutput() + ".txt");
-            String out = cutter.toString().replaceAll("\\[|\\]", "").replace(", ","\n");
+            FileWriter writer = new FileWriter("src/files/" + command.getOutput() + ".txt");
+            String out = cutter.answerFile.toString().replaceAll("\\[|\\]", "").replace(", ","\n");
             writer.write(out);
             writer.close();
         }
     }
 
-    public static List<String> toCut(String text) {
+    public void toCut(String text) {
 
-        List<String> answerFile = new ArrayList<>();
         StringBuilder answerLine = new StringBuilder();
-        int k = CutParser.getK();
-        int n = CutParser.getN();
+        int k = command.getK();
+        int n = command.getN();
 
-        if (CutParser.isChars() && !CutParser.isWords()) {
+        if (command.isChars() && !command.isWords()) {
 
             for (String lines : text.split("\n")) {
 
@@ -127,7 +127,6 @@ public class Cut {
                 lineBuilder.clear();
             }
         }
-        return answerFile;
     }
 
 }

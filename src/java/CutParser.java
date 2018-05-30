@@ -4,7 +4,7 @@ public class CutParser {
     private static int n, k;
     private static boolean words = false, chars = false;
 
-    public CutParser(String[] args) throws IllegalArgumentException{
+    public void toParse(String[] args) throws IllegalArgumentException{
 
         StringBuilder check = new StringBuilder(args[0]);
         for (int i = 1; i < args.length; i++)
@@ -50,27 +50,27 @@ public class CutParser {
         }
     }
 
-    public static String getInput() {
+    public String getInput() {
         return input;
     }
 
-    public static String getOutput() {
+    public String getOutput() {
         return output;
     }
 
-    public static int getN() {
+    public int getN() {
         return n;
     }
 
-    public static int getK() {
+    public int getK() {
         return k;
     }
 
-    public static boolean isWords() {
+    public boolean isWords() {
         return words;
     }
 
-    public static boolean isChars() {
+    public boolean isChars() {
         return chars;
     }
 }
