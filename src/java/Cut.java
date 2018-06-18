@@ -7,15 +7,15 @@ import java.util.List;
 public class Cut {
 
     private List<String> answerFile = new ArrayList<>();
-    private static CutParser command = new CutParser();
 
     public static void main(String[] args) throws Exception {
 
+        CutParser command = new CutParser();
         command.toParse(args);
 
         String text = new String(Files.readAllBytes(Paths.get("src/files/" + command.getInput() + ".txt")));
         Cut cutter = new Cut();
-        cutter.toCut(text);
+        cutter.toCut(text, command);
 
 
         if (command.getOutput().equals("")) {
@@ -30,7 +30,7 @@ public class Cut {
         }
     }
 
-    public void toCut(String text) {
+    private void toCut(String text, CutParser command) {
 
         StringBuilder answerLine = new StringBuilder();
         int k = command.getK();
@@ -128,5 +128,4 @@ public class Cut {
             }
         }
     }
-
 }

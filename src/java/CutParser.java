@@ -1,10 +1,10 @@
 public class CutParser {
 
-    private static String input = "", output = "";
-    private static int n, k;
-    private static boolean words = false, chars = false;
+    private String input = "", output = "";
+    private int n, k;
+    private boolean words = false, chars = false;
 
-    public void toParse(String[] args) throws IllegalArgumentException{
+    public void toParse(String[] args) throws IllegalArgumentException {
 
         StringBuilder check = new StringBuilder(args[0]);
         for (int i = 1; i < args.length; i++)
@@ -73,4 +73,6 @@ public class CutParser {
     public boolean isChars() {
         return chars;
     }
+
+
 }
