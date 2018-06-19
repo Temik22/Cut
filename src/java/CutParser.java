@@ -1,10 +1,10 @@
-public class CutParser {
+ class CutParser {
 
     private String input = "", output = "";
     private int n, k;
     private boolean words = false, chars = false;
 
-    public void toParse(String[] args) throws IllegalArgumentException {
+    void toParse(String[] args) throws IllegalArgumentException {
 
         StringBuilder check = new StringBuilder(args[0]);
         for (int i = 1; i < args.length; i++)
@@ -50,27 +50,27 @@ public class CutParser {
         }
     }
 
-    public String getInput() {
+    String getInput() {
         return input;
     }
 
-    public String getOutput() {
+    String getOutput() {
         return output;
     }
 
-    public int getN() {
+    int getN() {
         return n;
     }
 
-    public int getK() {
+    int getK() {
         return k;
     }
 
-    public boolean isWords() {
+    boolean isWords() {
         return words;
     }
 
-    public boolean isChars() {
+    boolean isChars() {
         return chars;
     }
 
